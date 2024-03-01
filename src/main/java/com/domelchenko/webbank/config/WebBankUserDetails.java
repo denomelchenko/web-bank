@@ -17,7 +17,7 @@ import java.util.List;
 
 @Service
 public class WebBankUserDetails implements UserDetailsService {
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
     @Autowired
     public WebBankUserDetails(CustomerRepository customerRepository) {
@@ -28,8 +28,8 @@ public class WebBankUserDetails implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         String userName, password = null;
         List<GrantedAuthority> authorities = null;
-        List<Customer> customer = customerRepository.findByEmail("username");
-        if (customer.size() == 0) {
+        List<Customer> customer = customerRepository.findByEmail(username);
+        if (customer.isEmpty()) {
             throw new UsernameNotFoundException("User details for " + username + " user do not found.");
         } else {
             userName = customer.get(0).getEmail();
