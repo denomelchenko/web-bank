@@ -5,6 +5,8 @@ import com.domelchenko.webbank.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,14 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
     private final CustomerRepository customerRepository;
 
-    public LoginController(CustomerRepository customerRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+    public LoginController(CustomerRepository customerRepository, PasswordEncoder passwordEncoder) {
         this.customerRepository = customerRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody Customer customer) {
         try {
             customerRepository.save(customer);
+            customer.setPassword(passwordEncoder.encode(customer.getPassword()));
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body("User successfully created");
