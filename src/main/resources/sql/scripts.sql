@@ -20,7 +20,7 @@ INSERT INTO `customer` (`name`, `email`, `mobile_number`, `pwd`, `role`, `create
 VALUES ('Happy', 'happy@example.com', '9876548337', '$2y$12$oRRbkNfwuR8ug4MlzH5FOeui.//1mkd.RsOAJMbykTSupVy.x/vb2',
         'admin', CURDATE());
 
-CREATE TABLE `account`
+CREATE TABLE accounts
 (
     `customer_id`    int          NOT NULL,
     `account_number` int          NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE `account`
     CONSTRAINT `customer_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE
 );
 
-INSERT INTO `account` (`customer_id`, `account_number`, `account_type`, `branch_address`, `create_dt`)
+INSERT INTO accounts (`customer_id`, `account_number`, `account_type`, `branch_address`, `create_dt`)
 VALUES (1, 1865764534, 'Savings', '123 Main Street, New York', CURDATE());
 
 CREATE TABLE `account_transactions`
