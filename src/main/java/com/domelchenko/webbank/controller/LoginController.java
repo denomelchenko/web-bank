@@ -25,8 +25,8 @@ public class LoginController {
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody Customer customer) {
         try {
-            customerRepository.save(customer);
             customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+            customerRepository.save(customer);
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body("User successfully created");
