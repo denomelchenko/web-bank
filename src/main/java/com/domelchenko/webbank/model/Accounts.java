@@ -16,7 +16,7 @@ import java.util.Set;
 @Table(name = "accounts", indexes = {
         @Index(name = "customer_id", columnList = "customer_id")
 })
-public class Account {
+public class Accounts {
     @Id
     @Column(name = "account_number", nullable = false)
     private Integer accountNumber;
@@ -36,6 +36,6 @@ public class Account {
     private LocalDate createDt;
 
     @OneToMany(mappedBy = "accountNumber")
-    private Set<AccountTransaction> accountTransactions = new LinkedHashSet<>();
+    private Set<AccountTransactions> accountTransactions = new LinkedHashSet<>();
 
 }
