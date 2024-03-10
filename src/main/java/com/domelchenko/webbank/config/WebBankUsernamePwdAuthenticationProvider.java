@@ -2,7 +2,6 @@ package com.domelchenko.webbank.config;
 
 import com.domelchenko.webbank.model.Customer;
 import com.domelchenko.webbank.repository.CustomerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,7 +31,7 @@ public class WebBankUsernamePwdAuthenticationProvider implements AuthenticationP
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
         List<Customer> customer = customerRepository.findByEmail(username);
-        if (!customer.isEmpty() && passwordEncoder.matches(password, customer.get(0).getPassword())) {
+        if (!customer.isEmpty() && passwordEncoder.matches(password, customer.get(0).getPwd())) {
             List<GrantedAuthority> authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority(customer.get(0).getRole()));
             return new UsernamePasswordAuthenticationToken(username, password, authorities);
