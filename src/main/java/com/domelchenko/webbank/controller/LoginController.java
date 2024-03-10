@@ -2,11 +2,9 @@ package com.domelchenko.webbank.controller;
 
 import com.domelchenko.webbank.model.Customer;
 import com.domelchenko.webbank.repository.CustomerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +23,7 @@ public class LoginController {
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody Customer customer) {
         try {
-            customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+            customer.setPwd(passwordEncoder.encode(customer.getPwd()));
             customerRepository.save(customer);
             return ResponseEntity
                     .status(HttpStatus.CREATED)
