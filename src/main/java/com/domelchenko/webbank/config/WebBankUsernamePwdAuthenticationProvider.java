@@ -1,5 +1,6 @@
 package com.domelchenko.webbank.config;
 
+import com.domelchenko.webbank.model.Authority;
 import com.domelchenko.webbank.model.Customer;
 import com.domelchenko.webbank.repository.CustomerRepository;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class WebBankUsernamePwdAuthenticationProvider implements AuthenticationProvider {
@@ -32,11 +34,22 @@ public class WebBankUsernamePwdAuthenticationProvider implements AuthenticationP
         String password = authentication.getCredentials().toString();
         List<Customer> customer = customerRepository.findByEmail(username);
         if (!customer.isEmpty() && passwordEncoder.matches(password, customer.get(0).getPwd())) {
-            List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(customer.get(0).getRole()));
-            return new UsernamePasswordAuthenticationToken(username, password, authorities);
+            return new UsernamePasswordAuthenticationToken(
+                    username,
+                    password,
+                    getGrantedAuthorities(customer.get(0).getAuthorities())
+            );
         }
         throw new BadCredentialsException("Bad credentials");
+    }
+
+    private List<GrantedAuthority> getGrantedAuthorities(Set<Authority> authorities) {
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        for (Authority authority :
+                authorities) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(authority.getName()));
+        }
+        return grantedAuthorities;
     }
 
     @Override
