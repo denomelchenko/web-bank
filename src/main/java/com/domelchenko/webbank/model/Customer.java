@@ -1,5 +1,6 @@
 package com.domelchenko.webbank.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,16 +37,7 @@ public class Customer {
     @Column(name = "create_dt")
     private LocalDate createDt;
 
-    @OneToMany(mappedBy = "customer")
-    private Set<AccountTransactions> accountTransactions = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "customer")
-    private Set<Accounts> accounts = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "customer")
-    private Set<Cards> cards = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "customer")
-    private Set<Loans> loans = new LinkedHashSet<>();
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
+    private Set<Authority> authorities;
 }
