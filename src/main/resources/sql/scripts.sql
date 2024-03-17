@@ -1,8 +1,7 @@
-create database eazybank;
+drop database bank;
+create database bank;
 
-use eazybank;
-
-drop table `customer`;
+use bank;
 
 CREATE TABLE `customer` (
                             `customer_id` int NOT NULL AUTO_INCREMENT,
