@@ -13,11 +13,13 @@ import java.util.List;
 import java.util.Random;
 
 public class ContactController {
-    @Autowired
-    private ContactRepository contactRepository;
+    private final ContactRepository contactRepository;
+
+    public ContactController(ContactRepository contactRepository) {
+        this.contactRepository = contactRepository;
+    }
 
     @PostMapping("/contact")
-    // @PreFilter("filterObject.contactName != 'Test'")
     @PostFilter("filterObject.contactName != 'Test'")
     public List<Contact> saveContactInquiryDetails(@RequestBody List<Contact> contacts) {
         Contact contact = contacts.get(0);
